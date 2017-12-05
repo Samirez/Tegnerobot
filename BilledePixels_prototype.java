@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
  * @author euc
  */
 public class BilledePixels_prototype {
+
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -54,15 +55,22 @@ public class BilledePixels_prototype {
             ImageIO.write(binary, "jpg", s);
             System.out.println("File writing completed ");
         } catch (IOException e) {
-                        System.out.println("Error: " + e);
+            System.out.println("Error: " + e);
         }
         File input = new File("C:\\Users\\euc\\Pictures\\new picture.jpg");
         BufferedImage image = ImageIO.read(input);
         BufferedImage resized = resize(image, 50, 100);//ændre størrelsen på billedet
         File output = new File("C:\\Users\\euc\\Pictures\\new picture.jpg");
-        ImageIO.write(resized, "jpg", output);  
-         int[][] compute = compute(output);//her bliver pixelværdierne for billedet skrevet ind til en tekstfil
+        ImageIO.write(resized, "jpg", output);
+        int[][] compute = compute(output);//her bliver pixelværdierne for billedet skrevet ind til en tekstfil
+        try {
+            RobotClient R1 = new RobotClient("localhost", 4800);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage() + " Error");
+        }
     }
+
+    //herunder er metoden til at ændre størrelsen på billedet
     private static BufferedImage resize(BufferedImage img, int height, int width) {
         Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
@@ -71,6 +79,7 @@ public class BilledePixels_prototype {
         g2d.dispose();
         return resized;
     }
+//Den konvertere pixelværdierne til et 2d array
 
     public static int[][] convertToArray(BufferedImage image) {
 
@@ -126,7 +135,8 @@ public class BilledePixels_prototype {
 
         return result;
     }
-     
+    //her udskriver den 2d arrayet til en fil, som så bliver udskrevet som en tekstfil
+
     public static int[][] compute(File file) {
         try {
             BufferedImage image = ImageIO.read(file);
@@ -140,18 +150,18 @@ public class BilledePixels_prototype {
                     pixels[x][y] = raster.getSample(x, y, 0);
                 }
             }
-                String[] position = {"X", "Y"};
-            try (
+            try (//her bliver tekstfilen udskrevet
                     PrintStream output = new PrintStream(new File("C:\\Users\\euc\\Pictures\\output.txt"));) {
                 for (int y = 0; y < h; y++) {
-                for (int x = 0; x < w; x++) {
-                   // output.print(pixels[x][y] + ", ");
-                   if (pixels[x][y] >= 125){
-                       output.println("x " + x + " y " + y);
-                   }
+                    for (int x = 0; x < w; x++) {
+                        // output.print(pixels[x][y] + ", ");
+                        if (pixels[x][y] >= 125) {
+                            output.println("x " + x + " y " + y);
+                        }
+                    }
+                    output.println("");
                 }
-                output.println("");
-}output.close();
+                output.close();
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
             }
@@ -162,4 +172,3 @@ public class BilledePixels_prototype {
         return null;
     }
 }
-
