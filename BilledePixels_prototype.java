@@ -162,15 +162,23 @@ public class BilledePixels_prototype {
                     pixels[x][y] = raster.getSample(x, y, 0);
                 }
             }
-            String stringx;
-            String stringy;
+            String stringx = null;
+            String stringy = null;
             try (//her bliver tekstfilen udskrevet
                     PrintStream output = new PrintStream(new File("C:\\Users\\euc\\Pictures\\output.txt"));) {
                 for (int y = 0; y < h; y++) {
                     for (int x = 0; x < w; x++) {
                         // output.print(pixels[x][y] + ", ");
-                        if (pixels[x][y] >= 125) {
-                            if (x < 10) {
+                       if (pixels[x][y] >= 125) {
+                            
+                            stringx="a" + x;
+                            stringy="a" + y;
+                        }
+                            else {
+                                stringx="b" + x;
+                                stringy="b" + y;
+                            }
+                          /*  if (x < 10) {
                                 stringx = "x 0" + x;
                             } else {
                                 stringx = "x " + x;
@@ -179,12 +187,12 @@ public class BilledePixels_prototype {
                                 stringy = " y 0" + y;
                             } else {
                                 stringy = " y " + y;
-                            }
-                            output.println(stringx + stringy);
+                           */ }
+                           output.println(stringx + stringy);
                         }
-                    }
+                    
                     output.println("");
-                }
+                
                 output.close();
             } catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
