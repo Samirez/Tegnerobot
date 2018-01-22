@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dk.sdu.mmmi.rd1.edgedetect;
+package semester_projekt;
 
 /******************************************************************************
  *  Compilation:  javac Picture.java
@@ -101,7 +101,7 @@ public final class Picture implements ActionListener {
      */
     public Picture(Picture picture) {
         if (picture == null) throw new IllegalArgumentException("constructor argument is null");
-
+        
         width  = picture.width();
         height = picture.height();
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
